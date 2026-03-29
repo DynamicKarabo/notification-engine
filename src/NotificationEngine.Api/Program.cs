@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
@@ -188,6 +190,30 @@ app.MapGet("/health/ready", () => Results.Ok(new { status = "ready", timestamp =
 
 app.MapGet("/health/live", () => Results.Ok(new { status = "live", timestamp = DateTime.UtcNow }))
     .WithTags("Health");
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapGet("/dev/token", (string? userId, string? tenantId) =>
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisIsATestKeyForDevPurposes1234567890"));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, userId ?? "test-user-1"),
+            new("tenant_id", tenantId ?? "test-tenant-1")
+        };
+        
+        var token = new JwtSecurityToken(
+            issuer: "test-issuer",
+            audience: "notification-engine-api",
+            claims: claims,
+            expires: DateTime.UtcNow.AddHours(24),
+            signingCredentials: creds);
+        
+        return Results.Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+    });
+}
 
 app.MapHub<DashboardHub>("/hubs/dashboard")
     .RequireAuthorization();
