@@ -28,7 +28,7 @@ public class DashboardHub : Hub<IDashboardClient>
 
     public override async Task OnConnectedAsync()
     {
-        var userId = Context.UserIdentifier!;
+        var userId = Context.UserIdentifier ?? "anonymous";
         var connectionId = Context.ConnectionId;
 
         await _presenceTracker.UserConnectedAsync(userId, connectionId);
@@ -50,7 +50,7 @@ public class DashboardHub : Hub<IDashboardClient>
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        var userId = Context.UserIdentifier!;
+        var userId = Context.UserIdentifier ?? "anonymous";
         await _presenceTracker.UserDisconnectedAsync(userId, Context.ConnectionId);
 
         _logger.LogInformation(

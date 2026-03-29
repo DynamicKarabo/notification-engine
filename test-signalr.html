@@ -4,11 +4,13 @@
     <title>SignalR Test</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
     <style>
-        body { font-family: monospace; padding: 20px; }
-        #messages { border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; margin-top: 10px; }
-        .connected { color: green; }
-        .disconnected { color: red; }
-        .message { margin: 5px 0; }
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; }
+        #messages { border: 1px solid #444; height: 300px; overflow-y: auto; padding: 10px; margin-top: 10px; background: #000; }
+        .connected { color: #0f0; }
+        .disconnected { color: #f00; }
+        .message { margin: 5px 0; color: #0ff; }
+        .error { color: #f00; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -21,33 +23,58 @@
     <script>
         let connection = null;
 
+        function addMessage(msg, isError = false) {
+            const div = document.createElement("div");
+            div.className = isError ? "message error" : "message";
+            div.textContent = new Date().toLocaleTimeString() + " - " + msg;
+            document.getElementById("messages").appendChild(div);
+            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+        }
+
         async function connect() {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6InRlc3QtdXNlci0xIiwidGVuYW50X2lkIjoidGVzdC10ZW5hbnQtMSIsImV4cCI6MTc3NDg4ODE5MCwiaXNzIjoidGVzdC1pc3N1ZXIiLCJhdWQiOiJub3RpZmljYXRpb24tZW5naW5lLWFwaSJ9.j2Tj4nqRXEcEzdsHS5buWnh9O9ZPY_C8oc1viNVK2xM";
-
-            connection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:5270/hubs/dashboard?access_token=" + token)
-                .withAutomaticReconnect()
-                .build();
-
-            connection.on("ReceiveNotification", (data) => {
-                addMessage("Received: " + JSON.stringify(data));
-            });
-
-            connection.on("UserJoined", (data) => {
-                addMessage("UserJoined: " + JSON.stringify(data));
-            });
-
-            connection.on("UserLeft", (data) => {
-                addMessage("UserLeft: " + JSON.stringify(data));
-            });
-
+            addMessage("Fetching token...");
+            
             try {
+                const tokenResponse = await fetch("http://localhost:5270/dev/token?userId=browser-user&tenantId=test-tenant-1");
+                const tokenData = await tokenResponse.json();
+                const token = tokenData.token;
+                addMessage("Got token: " + token.substring(0, 30) + "...");
+
+                connection = new signalR.HubConnectionBuilder()
+                    .withUrl("http://localhost:5270/hubs/dashboard", { 
+                        accessTokenFactory: () => token 
+                    })
+                    .withAutomaticReconnect()
+                    .build();
+
+                connection.on("ReceiveNotification", (data) => {
+                    addMessage("Received: " + JSON.stringify(data));
+                });
+
+                connection.onreconnecting((error) => {
+                    addMessage("Reconnecting... " + error, true);
+                });
+
+                connection.onreconnected((connectionId) => {
+                    addMessage("Reconnected! ID: " + connectionId);
+                });
+
+                connection.onclose((error) => {
+                    addMessage("Connection closed. " + error, true);
+                    document.getElementById("status").textContent = "Disconnected";
+                    document.getElementById("status").className = "disconnected";
+                });
+
+                addMessage("Starting connection...");
                 await connection.start();
+                
                 document.getElementById("status").textContent = "Connected";
                 document.getElementById("status").className = "connected";
-                addMessage("Connected to hub!");
+                addMessage("Connected to hub! ConnectionId: " + connection.connectionId);
+                
             } catch (err) {
-                addMessage("Error: " + err);
+                addMessage("Error: " + err, true);
+                console.error(err);
             }
         }
 
@@ -58,13 +85,6 @@
                 document.getElementById("status").className = "disconnected";
                 addMessage("Disconnected");
             }
-        }
-
-        function addMessage(msg) {
-            const div = document.createElement("div");
-            div.className = "message";
-            div.textContent = new Date().toISOString() + " - " + msg;
-            document.getElementById("messages").appendChild(div);
         }
     </script>
 </body>
