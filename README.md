@@ -59,12 +59,12 @@ NotificationEngine/
 
 ```mermaid
 graph TD
-    API[API Layer<br/>(ASP.NET Core)] --> Application
+    API[API Layer] --> Application
     API --> Infrastructure
     Application --> Domain
     Infrastructure --> Domain
     Infrastructure --> Application
-    
+
     style API fill:#4ECDC4,stroke:#333,color:#000
     style Application fill:#45B7D1,stroke:#333,color:#000
     style Infrastructure fill:#96CEB4,stroke:#333,color:#000
