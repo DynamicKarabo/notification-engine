@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "yPjZojqij6g=",
+  "success": true,
+  "projectFilePath": "/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/NotificationEngine.Domain.csproj",
+  "expectedPackageFiles": [
+    "/home/karabooliphant/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/home/karabooliphant/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/home/karabooliphant/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

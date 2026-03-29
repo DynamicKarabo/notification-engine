@@ -1,0 +1,16 @@
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/bin/Debug/net8.0/NotificationEngine.Application.deps.json
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/bin/Debug/net8.0/NotificationEngine.Application.dll
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/bin/Debug/net8.0/NotificationEngine.Application.pdb
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/bin/Debug/net8.0/NotificationEngine.Domain.dll
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/bin/Debug/net8.0/NotificationEngine.Domain.pdb
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.csproj.AssemblyReference.cache
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.GeneratedMSBuildEditorConfig.editorconfig
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.AssemblyInfoInputs.cache
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.AssemblyInfo.cs
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.csproj.CoreCompileInputs.cache
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.sourcelink.json
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/Notifica.242C86C5.Up2Date
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.dll
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/refint/NotificationEngine.Application.dll
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/NotificationEngine.Application.pdb
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Application/obj/Debug/net8.0/ref/NotificationEngine.Application.dll

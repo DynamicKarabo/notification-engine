@@ -1,0 +1,13 @@
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/bin/Debug/net8.0/NotificationEngine.Domain.deps.json
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/bin/Debug/net8.0/NotificationEngine.Domain.dll
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/bin/Debug/net8.0/NotificationEngine.Domain.pdb
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.csproj.AssemblyReference.cache
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.AssemblyInfoInputs.cache
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.AssemblyInfo.cs
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.csproj.CoreCompileInputs.cache
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.sourcelink.json
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.dll
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/refint/NotificationEngine.Domain.dll
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/NotificationEngine.Domain.pdb
+/home/karabooliphant/Projects/notification-engine/src/NotificationEngine.Domain/obj/Debug/net8.0/ref/NotificationEngine.Domain.dll
