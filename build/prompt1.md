@@ -1,0 +1,20 @@
+**Prompt 1: Project Setup & Core Clean Architecture**
+> "Act as an expert .NET 8 developer. Set up the foundational structure for a Clean Architecture API called 'NotificationEngine'. Create the core layers: Domain, Application, Infrastructure, and Api. Include MediatR and MediatR.Extensions.Microsoft.DependencyInjection. Set up a base `IAggregateRoot` interface that can hold a collection of domain events. Configure the initial `Program.cs` to use Serilog for structured logging, including OpenTelemetry trace propagation (TraceId and SpanId) and JWT claim scopes (UserId, TenantId)."
+
+**Prompt 2: Entity Framework Core & The Transactional Outbox Pattern**
+> "In the Infrastructure layer, implement an EF Core `ApplicationDbContext`. Override `SaveChangesAsync` to implement the Transactional Outbox Pattern. When saving, intercept any domain events raised by `IAggregateRoot` entities. Serialize these events to an `OutboxMessage` table within the same SQL database transaction as the business data. Ensure the Application layer is unaware of this outbox serialization logic."
+
+**Prompt 3: Application Pipeline & MediatR CQRS**
+> "Implement the MediatR pipeline in the Application layer. Create ordered `IPipelineBehavior<TRequest, TResponse>` implementations for ErrorHandling, Logging, Transaction, and Validation. Ensure the `TransactionBehaviour` only applies to state-mutating commands by enforcing that all commands implement an `ICommand<TResponse>` marker interface. Also, configure MediatR's `PublishStrategy` to `SyncContinueOnException` for domain events so a failing handler doesn't block other handlers from executing."
+
+**Prompt 4: SignalR Hub Layer & Redis Backplane**
+> "Create a strictly-typed SignalR Hub named `DashboardHub` using a shared `IDashboardClient` interface for compile-time safety. Configure the API to use the Redis backplane (`Microsoft.AspNetCore.SignalR.StackExchangeRedis`) using DB 1 and a `signalr:` channel prefix to isolate it from other stream data. Implement connection authorization requiring a valid JWT Bearer token passed via the query string during the WebSocket upgrade. Finally, implement presence tracking in Redis using a TTL-based heartbeat pattern stored in a sorted set (`presence:users`) scored by the last-seen Unix timestamp."
+
+**Prompt 5: Redis Streams Event Backbone & Consumer Groups**
+> "Implement a durable event backbone using Redis Streams. Create a producer service that appends events to a stream, and implement a BackgroundService acting as a consumer group member. Use `XREADGROUP` with explicit `XACK` for exactly-once processing semantics. If processing fails after `MaxRetries`, write the message to a `stream:dlq` (Dead-Letter Queue) with full diagnostic context. Implement idempotency checks on the consumer side before processing by checking an `IdempotencyKey` against a Redis set with a 24-hour TTL."
+
+**Prompt 6: Background Jobs with Hangfire**
+> "Integrate Hangfire into the API using SQL Server storage. Create a recurring job named `OutboxPublisherJob` that runs every 5 seconds to read unpublished outbox messages, publish them to Redis Streams, and mark them as processed. Decorate this job with `[DisableConcurrentExecution]` to prevent parallel publishing. Configure the Hangfire workers to process queues in priority order: `['critical', 'default', 'low']`. Additionally, create job interfaces for `EmailNotificationJob` and `SmsNotificationJob` following an `IXxxJob` convention with a single `ExecuteAsync(CancellationToken)` method."
+
+**Prompt 7: Azure Service Bus Integration**
+> "Implement Azure Service Bus integration for cross-service communication. Set up a subscriber that reads messages from external topics. Validate all inbound messages against a JSON Schema registry; if a message has an unknown or malformed schema, reject it and move it to the Service Bus DLQ. Once validated, route the external events into the internal Redis Streams and MediatR pipeline."
