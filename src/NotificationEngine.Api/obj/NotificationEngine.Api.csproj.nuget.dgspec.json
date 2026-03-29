@@ -85,7 +85,7 @@
             },
             "OpenTelemetry.Instrumentation.AspNetCore": {
               "target": "Package",
-              "version": "[1.7.0, )"
+              "version": "[1.10.0, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",
@@ -358,7 +358,7 @@
             },
             "System.Text.Json": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.5, )"
             }
           },
           "imports": [

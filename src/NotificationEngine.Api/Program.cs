@@ -9,6 +9,7 @@ using NotificationEngine.Api.Hubs;
 using NotificationEngine.Application;
 using NotificationEngine.Application.Abstractions.Jobs;
 using NotificationEngine.Infrastructure;
+using NotificationEngine.Infrastructure.Persistence;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
 using Serilog;
@@ -119,6 +120,12 @@ builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated();
+}
+
 app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     Authorization = new[] { new HangfireAuthFilter() }
@@ -163,11 +170,12 @@ app.UseSerilogRequestLogging(options =>
     };
 });
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NotificationEngine API v1");
+    c.RoutePrefix = "";
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
